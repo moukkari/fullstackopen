@@ -1,0 +1,8 @@
+title 0.4: uusi muistiinpano
+
+note left of Selain: Selain lähettää uuden noten post-pyyntönä
+Selain->Palvelin: HTTP POST
+note right of Palvelin: Palvelin saa pyynnön ja lisää uuden olion (jossa on note ja päivämäärä) taulukkoon
+note right of Palvelin: Tämän jälkeen palvelin vastaa redirect-pyynnöllä selaimelle
+Palvelin->Selain: HTTP Response
+note left of Selain: Selain saa vastauksen ja lataa "notet" uudelleen, jolloin uusi note ilmestyy näytölle

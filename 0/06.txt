@@ -1,0 +1,10 @@
+0.6: Uusi muistiinpano
+
+
+note left of Selain: Selain lisää uuden noten "paikalliseen" taulukkoon
+note left of Selain: Selain ajaa funktion joka rerenderöi notet
+note left of Selain: Selain lähettää uuden noten palvelimelle
+Selain->Palvelin: HTTP POST
+note right of Palvelin: Palvelin saa pyynnön ja lisää uuden olion (jossa on note ja päivämäärä) taulukkoon
+note right of Palvelin: Tämän jälkeen palvelin vastaa 201 Created statuksella selaimelle
+Palvelin->Selain: HTTP Response
