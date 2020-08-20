@@ -1,6 +1,5 @@
 import React from 'react'
 import Part from './Part'
-import Header from './Header'
 
 const Content = ({data}) => {
     const result = data.map(course => 
