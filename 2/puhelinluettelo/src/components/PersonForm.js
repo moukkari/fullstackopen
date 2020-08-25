@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import srv from '../services/phoneService'
 
 const PersonForm = (props) => {
     const [ newName, setNewName ] = useState('')
@@ -7,10 +8,20 @@ const PersonForm = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         if (props.persons.some(person => person.name === newName)) {
-            alert(`Error! ${newName} is already in the phonebook`)
+            const answer = window.confirm(`${newName} is already in the phonebook. Replace the old number with a new one?`)
+            if (answer) {
+                let person = props.persons.find(x => x.name === newName)
+                person.number = newNumber
+                srv.update(person.id, person)
+                    .then(r => srv.getAll().then(r => props.setAllPersons(r)))        
+            }
         } else {
-            props.setPersons(props.persons.concat({name: newName, number: newNumber}))
-            props.setFiltered(props.persons.concat({name: newName, number: newNumber}))
+            let newObj = {name: newName, number: newNumber}
+            srv.add(newObj).then(r =>  {
+                newObj = r
+                props.setAllPersons(props.persons.concat(newObj))
+            })
+            
         }
     }
     const handleNameChange = (event) => setNewName(event.target.value)
