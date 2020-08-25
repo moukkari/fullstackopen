@@ -1,0 +1,11 @@
+.error {
+    color: red;
+}
+.info {
+    color: green;
+}
+.note {
+    padding: 1em;
+    border: 2px solid black;
+    border-radius: 1em;
+}

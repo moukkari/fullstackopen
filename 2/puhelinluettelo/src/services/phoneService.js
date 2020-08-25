@@ -12,8 +12,13 @@ const add = newObj => {
 }
 
 const remove = id => {
-    axios.delete(`${url}/${id}`)
+    const req = axios.delete(`${url}/${id}`)
+        .catch(() => {
+            return { status: 404 }
+        })     
     console.log(`deleted id ${id}`)
+    return req.then(r => r.status)
+
 }
 
 const update = (id, newObj) => {

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import srv from '../services/phoneService'
+import Notification from './Notification'
 
 const PersonForm = (props) => {
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
+    const [ message, setMessage ] = useState('')
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -13,13 +15,18 @@ const PersonForm = (props) => {
                 let person = props.persons.find(x => x.name === newName)
                 person.number = newNumber
                 srv.update(person.id, person)
-                    .then(r => srv.getAll().then(r => props.setAllPersons(r)))        
+                    .then(r => srv.getAll().then(r => {
+                        props.setAllPersons(r)
+                        setMessage(`Updated ${person.name}`)
+                        setTimeout(() => setMessage(null), 5000)
+                }))        
             }
         } else {
             let newObj = {name: newName, number: newNumber}
             srv.add(newObj).then(r =>  {
-                newObj = r
-                props.setAllPersons(props.persons.concat(newObj))
+                props.setAllPersons(props.persons.concat(r))
+                setMessage(`Added ${r.name}`)
+                setTimeout(() => setMessage(null), 5000)
             })
             
         }
@@ -35,6 +42,7 @@ const PersonForm = (props) => {
             </div>
             <div>
                 <button type="submit">add</button>
+                <Notification msg={message} error={false} />
             </div>
         </form>
     ) 
