@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
-const Person = require('./models/note')
+const Person = require('./models/person')
 
 app.use(express.static('puhelinluettelo/build'))
 app.use(cors())
@@ -22,6 +22,7 @@ app.use(morgan((tokens, req, res) => {
 
 app.get('/', (req, res, next) => {
     res.send('<h1>Hello World!</h1>')
+        .catch(err => next(err))
 })
 
 app.get('/info', (req, res, next) => {
@@ -56,7 +57,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndDelete(req.params.id)
-        .then(result => res.status(204).end())
+        .then(() => res.status(204).end())
         .catch(error => next(error))
 })
 
@@ -103,7 +104,7 @@ const errorHandler = (err, req, res, next) => {
     console.error(err.message)
   
     if (err.name === 'CastError') {
-      return res.status(400).send({ error: 'malformatted id' })
+        return res.status(400).send({ error: 'malformatted id' })
     } else if (err.name === 'ValidationError') {  
         return res.status(400).json({ error: err.message })
     }
@@ -116,5 +117,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+    console.log(`Server running on port ${PORT}`)
 })
