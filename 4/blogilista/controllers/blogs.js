@@ -1,41 +1,45 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogRouter.get('/', async (request, response) => {
 
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   console.log('found blogs: ', blogs)
-
-  response.json(blogs)
-  /*
-  // Old way using promises
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
-  */
+  response.header("Content-Type",'application/json')
+  response.send(JSON.stringify(blogs, null, 2))
 })
 
 blogRouter.post('/', async (request, response) => {
-  const blog = new Blog(request.body)
-
   try {
-    const savedNote = await blog.save()
-    response.status(201).json(savedNote.toJSON())
-  } catch(e) {
-    response.status(400).json({error: e.toJSON()})
-  }
-  
+    const body = request.body
+    const user = await User.findById(body.userId)
 
-  // old way using promises
-  /*
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes,
+      user: user._id
     })
-  */
+  
+  
+    try {
+      const savedBlog = await blog.save()
+
+      user.blogs = user.blogs.concat(savedBlog.id)
+      await user.save()
+
+      response.status(201).json(savedBlog.toJSON())
+    } catch(e) {
+      response.status(400).json(e.message).end()
+    }
+  } catch(e) {
+    response.status(400).json(e.message).end()
+  }
+
+  
+  
 })
 
 blogRouter.delete('/:id', async (request, response) => {
