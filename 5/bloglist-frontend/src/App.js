@@ -5,8 +5,9 @@ import blogService from './services/blogs'
 import NewBlog from './components/NewBlog'
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
+  const [blogAdded, setBlogAdded] = useState(false)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('blogDude')
@@ -22,17 +23,25 @@ const App = () => {
     window.location.reload()
   }
 
+  const setInfoMessage = (message, type = 'default') => {
+    const style = type === 'default' ? 'green' : 'red'
+    setMessage(<p style={{color: style}}>{message}</p>)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+
   return (
     <div>
-      {errorMessage}
+      {message}
 
       {user === null ?
-        <Login setErrorMessage={setErrorMessage} setUser={setUser} />
+        <Login setInfoMessage={setInfoMessage} setUser={setUser} />
         : 
         <div>
           <p>{user.name} logged in <button onClick={() => logOut()}>Log out</button></p>
-          <NewBlog setErrorMessage={setErrorMessage} />
-          <Blogs setErrorMessage={setErrorMessage} />
+          <NewBlog setInfoMessage={setInfoMessage} blogAdded={blogAdded} setBlogAdded={setBlogAdded} />
+          <Blogs blogAdded={blogAdded} />
         </div>
       }
       

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const Login = ({ setErrorMessage, setUser }) => {
+const Login = ({ setInfoMessage, setUser }) => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   // eslint-disable-next-line no-unused-vars
@@ -27,10 +27,7 @@ const Login = ({ setErrorMessage, setUser }) => {
       setPassword('')
 
     } catch(e) {
-      setErrorMessage('wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      setInfoMessage('wrong credentials', 'error')
     }
   }
 
