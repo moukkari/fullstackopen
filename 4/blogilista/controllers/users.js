@@ -16,14 +16,12 @@ usersRouter.post('/', async (request, response) => {
       passwordHash,
     })
 
-    try {
-      const savedUser = await user.save()
+    const savedUser = await user.save()
 
-      response.status(201).json(savedUser)
-    } catch(e) {
-
-      response.status(400).json(e.message).end()
-    }
+    response.status(201).json(savedUser)
+  
+    response.status(400).json(e.message).end()
+    
   } else {
     response.status(400).json('User validation failed: password: Error, expected password to be at least 3 characters long')
   }
