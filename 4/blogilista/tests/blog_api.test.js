@@ -5,6 +5,7 @@ const app = require('../app')
 
 const api = supertest(app)
 
+
 test('notes are returned as json', async () => {
   await api
     .get('/api/blogs')
@@ -36,7 +37,11 @@ test('posting a blog adds the correct blog to the database', async () => {
   let response = await api.get('/api/blogs')
 
   const blogsLength = response.body.length
-  console.log(blogsLength)
+
+  response = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'sekret' } )
+    .expect(200)
 
   const newBlog = {
     title: 'superTestTitle',
@@ -44,9 +49,10 @@ test('posting a blog adds the correct blog to the database', async () => {
     url: 'http://www.yle.fi',
     likes: 2
   }
-  
+
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${response.body.token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -75,12 +81,18 @@ test(`if likes doesn't have a value, it's set to 0`, async () => {
 })
 
 test('new blog has to have values for title and url', async () => {
+  const response = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'sekret' } )
+    .expect(200)
+
   const newBlog = {
     author: 'Kari Grandi'
   }
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${response.body.token}`)
     .send(newBlog)
     .expect(400)
 })
