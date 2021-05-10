@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Blog from './Blog'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Blogs = (props) => {
   const [blogs, setBlogs] = useState(props.blogs)
+
+  Blogs.propTypes = {
+    blogs: PropTypes.array.isRequired,
+    setInfoMessage: PropTypes.func.isRequired
+  }
 
   useEffect(() => {
     setBlogs(props.blogs)
@@ -23,13 +29,14 @@ const Blogs = (props) => {
   }
 
   blogs.sort((a, b) => (a.likes < b.likes) ? 1 : -1)
-  
+
   return (
     <div>
       <h2>Blogs ({blogs.length})</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} removeBlog={removeBlog} />
-    )}</div>
+      )}
+    </div>
   )
 }
 

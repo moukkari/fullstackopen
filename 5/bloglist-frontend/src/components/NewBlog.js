@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const NewBlog = ({ addBlog }) => {
-  const [blog, setBlog] = useState({title: '', author: '', url:''})
+  const [blog, setBlog] = useState({ title: '', author: '', url:'' })
+
+  NewBlog.propTypes = {
+    addBlog: PropTypes.func.isRequired,
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -9,7 +14,7 @@ const NewBlog = ({ addBlog }) => {
   }
 
   const handleChange = (e) => {
-    setBlog({...blog, [e.target.name]: e.target.value})
+    setBlog({ ...blog, [e.target.name]: e.target.value })
   }
 
   return (

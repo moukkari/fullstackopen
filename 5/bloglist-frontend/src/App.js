@@ -23,7 +23,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   const addBlog = async (blog) => {
@@ -40,7 +40,7 @@ const App = () => {
 
   const setInfoMessage = (message, type = 'default') => {
     const style = type === 'default' ? 'green' : 'red'
-    setMessage(<p style={{color: style}}>{message}</p>)
+    setMessage(<p style={{ color: style }}>{message}</p>)
     setTimeout(() => {
       setMessage(null)
     }, 5000)
@@ -52,9 +52,9 @@ const App = () => {
 
       {user === null ?
         <Togglable buttonLabel="login">
-            <Login setInfoMessage={setInfoMessage} setUser={setUser} />
+          <Login setInfoMessage={setInfoMessage} setUser={setUser} />
         </Togglable>
-        : 
+        :
         <div>
           <p>{user.name} logged in <button onClick={() => logOut()}>Log out</button></p>
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
@@ -63,8 +63,8 @@ const App = () => {
           <Blogs blogs={blogs} setInfoMessage={setInfoMessage} />
         </div>
       }
-      
-      
+
+
     </div>
   )
 }

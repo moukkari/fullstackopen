@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Login = ({ setInfoMessage, setUser }) => {
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   // eslint-disable-next-line no-unused-vars
   const [state, setState] = useState({})
+
+  Login.propTypes = {
+    setInfoMessage: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired
+  }
 
   // to avoid getting a 'Can't perform a React state update on an unmounted component' error
   useEffect(() => {
@@ -37,7 +43,7 @@ const Login = ({ setInfoMessage, setUser }) => {
       <form onSubmit={handleLogin}>
         <div>
           username
-            <input
+          <input
             type="text"
             value={username}
             name="Username"
@@ -46,7 +52,7 @@ const Login = ({ setInfoMessage, setUser }) => {
         </div>
         <div>
           password
-            <input
+          <input
             type="password"
             value={password}
             name="Password"

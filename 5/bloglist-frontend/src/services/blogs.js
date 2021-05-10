@@ -13,7 +13,7 @@ const getAll = () => {
 }
 
 const create = async newObj => {
-  const config = { headers: { Authorization: token }}
+  const config = { headers: { Authorization: token } }
 
   const response = await axios.post(baseUrl, newObj, config)
   return response.data
@@ -25,14 +25,14 @@ const update = (id, newObj) => {
 }
 
 const remove = async (id) => {
-  const config = { headers: { Authorization: token }}
+  const config = { headers: { Authorization: token } }
   try {
     const response = await axios.delete(`${baseUrl}/${id}`, config)
     return { status: response.status, message: 'removed succesfully' }
   } catch(e) {
-    return {status: e.response.status, message: e.response.data.error }
+    return { status: e.response.status, message: e.response.data.error }
   }
-  
+
 }
 
 const blogService = { getAll, setToken, create, update, remove }
