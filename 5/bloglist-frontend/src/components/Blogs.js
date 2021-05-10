@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Blog from './Blog'
-import blogService from '../services/blogs'
 
-const Blogs = ({ blogAdded }) => {
-  const [blogs, setBlogs] = useState([])
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [blogAdded])
-
+const Blogs = ({blogs}) => {
   return (
     <div>
       <h2>Blogs</h2>

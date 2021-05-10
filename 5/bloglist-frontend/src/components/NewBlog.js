@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const NewBlog = ({ setInfoMessage, blogAdded, setBlogAdded }) => {
+const NewBlog = ({ addBlog }) => {
   const [blog, setBlog] = useState({title: '', author: '', url:''})
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    let response = await blogService.create(blog)
-    console.log(response)
-    setBlogAdded(!blogAdded)
-    setInfoMessage(`A new blog ${response.title} by ${response.author} has been added`)
+    addBlog(blog)
   }
 
   const handleChange = (e) => {
