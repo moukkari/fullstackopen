@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 
 const NewBlog = ({ addBlog }) => {
   const [blog, setBlog] = useState({title: '', author: '', url:''})

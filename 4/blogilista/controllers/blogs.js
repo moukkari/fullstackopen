@@ -73,7 +73,7 @@ blogRouter.delete('/:id', userExtractor, async (request, response) => {
       }
     })
   } else {
-    response.status(401).json({ error: 'invalid token'})
+    response.status(401).json({ error: 'invalid token'}).end()
   }
 })
 
